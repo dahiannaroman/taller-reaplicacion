@@ -2,6 +2,9 @@ package facturacion;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Factura {
     private int folio;
     private String descripcion;
@@ -12,7 +15,7 @@ public class Factura {
     private static final int MAX_ITEMS = 100;
     private int indiceItems = 0;
 
-    //constructor
+    // Constructor
     public Factura(String descripcion, Cliente cliente) {
         this.folio = ultimoFolio++;
         this.descripcion = descripcion;
@@ -21,7 +24,7 @@ public class Factura {
         this.items = new ItemFactura[MAX_ITEMS];
     }
 
-    //getters y setters
+    // Getters y Setters
     public int getFolio() {
         return folio;
     }
@@ -30,43 +33,42 @@ public class Factura {
         return descripcion;
     }
 
-    public void setDescripcion(String descripcion){
+    public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
 
-    public Date getFecha(){
+    public Date getFecha() {
         return fecha;
     }
 
-    public Cliente getCliente(){
+    public Cliente getCliente() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente){
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 
-    public void addItemnFactura(ItemFactura item){
+    public void addItemFactura(ItemFactura item) {
         if (indiceItems < MAX_ITEMS) {
             items[indiceItems++] = item;
         } else {
-            System.out.println("No se pueden agregar más items a la factura");
+            System.out.println("No se pueden agregar más ítems a la factura.");
         }
     }
-    // metodo para calcular el total de la factura
-    public double calcularTotal(){
+
+    // Método para calcular el total de la factura
+    public double calcularTotal() {
         double total = 0;
-        for (ItemFactura item : items) {
-            if (item != null) {
-                total += item.calcularImporte();
-            }
+        for (int i = 0; i < indiceItems; i++) {
+            total += items[i].calcularImporte();
         }
         return total;
     }
 
-    //metodo para generar el detalle de la factura
-    public String generarDetalle(){
-        StringBuilder sb = new StringBuilder("Facrura N°: ");
+    // Método para generar el detalle de la factura
+    public String generarDetalle() {
+        StringBuilder sb = new StringBuilder("Factura Nº: ");
         sb.append(folio)
                 .append("\nCliente: ")
                 .append(cliente.getNombre())
@@ -80,10 +82,12 @@ public class Factura {
         sb.append("Fecha Emisión: ")
                 .append(df.format(fecha))
                 .append("\n")
-                .append("\n#\tNombre\t$\tCant.\tTotal\n");
+                .append("\n#\tCodigo\tNombre\tPrecio\tCant.\tTotal\n");
 
         for (int i = 0; i < indiceItems; i++) {
-            sb.append(items[i])
+            sb.append(i + 1)
+                    .append("\t")
+                    .append(items[i])
                     .append("\n");
         }
         sb.append("\nGran Total: ")
@@ -93,9 +97,7 @@ public class Factura {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return generarDetalle();
     }
 }
-
-
